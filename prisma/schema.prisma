@@ -1,0 +1,25 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+ 
+ model TrialBooking {
+  id                 Int       @id @default(autoincrement())
+  fullName           String    @map("full_name")
+  mobileNumber       String    @map("mobile_number")
+  email              String?
+  ageGroup           String?   @map("age_group")
+  interestedService  String?   @map("interested_service")
+  preferredBatch     String?   @map("preferred_batch")
+  preferredTrialDate DateTime? @map("preferred_trial_date")
+  message            String?   @db.Text
+  consentAgreed      Boolean   @default(true) @map("consent_agreed")
+  createdAt          DateTime  @default(now()) @map("created_at")
+
+  @@map("trial_bookings")
+}
