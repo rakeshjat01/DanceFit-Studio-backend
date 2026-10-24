@@ -1,39 +1,27 @@
-import { createBookingService, getAllBookingsService } from '../services/trial-booking-service.js';
+import { TrialBookingService } from '../services/index.js';
 
-export const createBooking = async (req, res) => {
+export const createBooking = async (req, res, next) => {
   try {
-    const booking = await createBookingService(req.body);
+    const booking = await TrialBookingService.createBookingService(req.body);
     return res.status(201).json({
       success: true,
-      message: 'Successfully submitted trial booking request',
+      message: 'Trial booking created successfully',
       data: booking,
-      err: {},
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to submit trial booking',
-      data: {},
-      err: error.message,
-    });
+    next(error);
   }
 };
 
-export const getBookings = async (req, res) => {
+export const getAllBookings = async (req, res, next) => {
   try {
-    const bookings = await getAllBookingsService();
+    const bookings = await TrialBookingService.getAllBookingsService();
     return res.status(200).json({
       success: true,
-      message: 'Fetched all trial bookings successfully',
+      message: 'Bookings fetched successfully',
       data: bookings,
-      err: {},
     });
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to fetch trial bookings',
-      data: {},
-      err: error.message,
-    });
+    next(error);
   }
 };

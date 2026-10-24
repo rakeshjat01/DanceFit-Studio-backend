@@ -1,3 +1,4 @@
+ 
 export const validateCreateTrialBooking = (req, res, next) => {
   const { fullName, mobileNumber, consentAgreed } = req.body;
 

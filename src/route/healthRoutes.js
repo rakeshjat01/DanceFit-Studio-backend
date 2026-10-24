@@ -5,7 +5,6 @@ const router = express.Router();
 
 /**
  * GET /api/health
- * Server aur database connection ka status check karo
  */
 router.get('/health', async (req, res) => {
   const startTime = Date.now();
@@ -26,8 +25,7 @@ router.get('/health', async (req, res) => {
     success: dbStatus === 'connected',
     status: 'ok',
     timestamp: new Date().toISOString(),
-    uptime: `${Math.floor(process.uptime())}s`,
-    responseTime: `${responseTime}ms`,
+    uptime: `${Math.floor(process.uptime())}s`, responseTime: `${responseTime}ms`,
     server: {
       status: 'running',
       environment: process.env.NODE_ENV || 'development',
