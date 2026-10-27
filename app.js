@@ -2,9 +2,9 @@ import 'dotenv/config';
 import app from './src/config/server.js';
 import prisma from './src/config/prismaClient.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT
+ 
 
-// ── Start Server ───────────────────────────────────────────
 async function startServer() {
   try {
     await prisma.$connect();

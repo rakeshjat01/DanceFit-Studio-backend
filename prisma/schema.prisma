@@ -23,3 +23,42 @@ datasource db {
 
   @@map("trial_bookings")
 }
+
+model Plan {
+  id          String   @id @default(uuid())
+  name        String   // e.g. "Salsa Monthly", "HipHop Quarterly"
+  description String?  // Plan ki details (optional)
+  price       Float    // e.g. 1500.00
+  durationDays Int     // e.g. 30, 90, 365 days
+  isActive    Boolean  @default(true) // Plan offer me hai ya nahi
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+}
+
+model Subscription {
+  id             String             @id @default(uuid())
+  userId         String             // Member/User ki ID
+  planId         String             // Plan ki ID
+  startDate      DateTime           @default(now())
+  endDate        DateTime           // Auto-calculated Expiry Date
+  status         SubscriptionStatus @default(ACTIVE)
+  paymentStatus  PaymentStatus      @default(PENDING)
+  amountPaid     Float              // Kitne paise receive hue
+  paymentMethod  String?            // e.g. "UPI", "CASH", "CARD"
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+
+ }
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  FAILED
+}
