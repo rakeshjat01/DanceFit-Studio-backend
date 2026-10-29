@@ -1,7 +1,9 @@
+import * as PlanService from './plan-service.js';
+import * as UserService from './user-service.js';
 import * as TrialBookingService from './trial-booking-service.js';
-import  *as PlanService from './plan-service.js';
 
 export {
-  TrialBookingService,
-  PlanService
+  PlanService,
+  UserService,
+  TrialBookingService
 };

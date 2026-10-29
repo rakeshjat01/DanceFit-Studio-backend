@@ -62,3 +62,17 @@ enum PaymentStatus {
   PENDING
   FAILED
 }
+
+
+model User {
+  id           String         @id @default(uuid())
+  fullName     String
+  mobileNumber String         @unique
+  email        String?        @unique
+  profileImage String?         
+  isActive     Boolean        @default(true)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+   
+}

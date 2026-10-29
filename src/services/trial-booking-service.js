@@ -1,6 +1,4 @@
-import TrialBookingRepository from '../repositories/trialBooking.js';
-
-const trialBookingRepository = new TrialBookingRepository();
+import { TrialBookingRepository } from '../repositories/index.js';
 
 export const createBookingService = async (data) => {
   const formattedData = {
@@ -15,9 +13,9 @@ export const createBookingService = async (data) => {
     consentAgreed: data.consentAgreed ?? true,
   };
 
-  return await trialBookingRepository.create(formattedData);
+  return await TrialBookingRepository.createBookingRepo(formattedData);
 };
 
 export const getAllBookingsService = async () => {
-  return await trialBookingRepository.getAll();
+  return await TrialBookingRepository.getAllBookingsRepo();
 };

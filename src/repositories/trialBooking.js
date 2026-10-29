@@ -1,15 +1,11 @@
 import prisma from '../config/prismaClient.js';
 
-class TrialBookingRepository {
-  async create(data) {
-    return await prisma.trialBooking.create({ data });
-  }
+export const createBookingRepo = async (data) => {
+  return await prisma.trialBooking.create({ data });
+};
 
-  async getAll() {
-    return await prisma.trialBooking.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-  }
-}
-
-export default TrialBookingRepository;
+export const getAllBookingsRepo = async () => {
+  return await prisma.trialBooking.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+};
