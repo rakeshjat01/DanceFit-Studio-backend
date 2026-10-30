@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,8 +6,8 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
- 
- model TrialBooking {
+
+model TrialBooking {
   id                 Int       @id @default(autoincrement())
   fullName           String    @map("full_name")
   mobileNumber       String    @map("mobile_number")
@@ -25,31 +24,53 @@ datasource db {
 }
 
 model Plan {
-  id          String   @id @default(uuid())
-  name        String   // e.g. "Salsa Monthly", "HipHop Quarterly"
-  description String?  // Plan ki details (optional)
-  price       Float    // e.g. 1500.00
-  durationDays Int     // e.g. 30, 90, 365 days
-  isActive    Boolean  @default(true) // Plan offer me hai ya nahi
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(uuid())
+  name         String // e.g. "Salsa Monthly", "HipHop Quarterly"
+  description  String? // Plan ki details (optional)
+  price        Float // e.g. 1500.00
+  durationDays Int // e.g. 30, 90, 365 days
+  isActive     Boolean  @default(true) // Plan offer me hai ya nahi
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
+  subscriptions Subscription[]
+}
+
+model User {
+  id           String   @id @default(uuid())
+  fullName     String
+  mobileNumber String   @unique
+  email        String?  @unique
+  profileImage String?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  subscriptions Subscription[]
 }
 
 model Subscription {
-  id             String             @id @default(uuid())
-  userId         String             // Member/User ki ID
-  planId         String             // Plan ki ID
-  startDate      DateTime           @default(now())
-  endDate        DateTime           // Auto-calculated Expiry Date
-  status         SubscriptionStatus @default(ACTIVE)
-  paymentStatus  PaymentStatus      @default(PENDING)
-  amountPaid     Float              // Kitne paise receive hue
-  paymentMethod  String?            // e.g. "UPI", "CASH", "CARD"
-  createdAt      DateTime           @default(now())
-  updatedAt      DateTime           @updatedAt
+  id            String             @id @default(uuid())
+  userId        String
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId        String
+  plan          Plan               @relation(fields: [planId], references: [id], onDelete: Restrict)
+  startDate     DateTime           @default(now())
+  endDate       DateTime
+  status        SubscriptionStatus @default(ACTIVE)
+  paymentStatus PaymentStatus      @default(PENDING)
+  amountPaid    Float
+  paymentMethod PaymentMethod      @default(CASH)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+}
 
- }
+enum PaymentMethod {
+  CASH
+  UPI
+  CARD
+  NET_BANKING
+}
 
 enum SubscriptionStatus {
   ACTIVE
@@ -63,16 +84,45 @@ enum PaymentStatus {
   FAILED
 }
 
+enum MediaType {
+  IMAGE
+  VIDEO
+}
 
-model User {
-  id           String         @id @default(uuid())
-  fullName     String
-  mobileNumber String         @unique
-  email        String?        @unique
-  profileImage String?         
-  isActive     Boolean        @default(true)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+model GalleryItem {
+  id        String    @id @default(uuid())
+  title     String?
+  caption   String?
+  mediaType MediaType @default(IMAGE)
+  mediaUrl  String
+  category  String?
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
 
-   
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  slug      String   @unique
+  isActive  Boolean  @default(true)
+  blogs     Blog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Blog {
+  id         String  @id @default(uuid())
+  title      String
+  slug       String  @unique
+  content    String  @db.Text
+  coverImage String?
+  author     String? @default("Admin")
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
