@@ -5,6 +5,9 @@ import * as SubscriptionService from './subscription-service.js';
 import * as GalleryService from './gallery-service.js';
 import * as BlogService from './blog-service.js';
 import * as CategoryService from './category-service.js';
+import * as ServiceCategoryService from './service-category-service.js';
+import * as ServiceService from './service-service.js';
+import * as TeamService from './team-service.js';
 
 export {
   PlanService,
@@ -13,5 +16,8 @@ export {
   SubscriptionService,
   GalleryService,
   BlogService,
-  CategoryService
+  CategoryService,
+  ServiceCategoryService,
+  ServiceService,
+  TeamService
 };

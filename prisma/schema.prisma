@@ -126,3 +126,58 @@ model Blog {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+ 
+ model ServiceCategory {
+  id          String    @id @default(uuid())
+  title       String    @unique
+  slug        String    @unique
+  description String?   @db.Text
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  
+  services    Service[] // Relation with Service model
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Service {
+  id          String   @id @default(uuid())
+  name        String   // e.g. "Kathak", "Bollywood", "Zumba"
+  slug        String   @unique
+  description String?  @db.Text
+  icon        String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+
+  // Relation with ServiceCategory
+  categoryId  String
+  category    ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum TeamRole {
+  FOUNDER
+  INSTRUCTOR
+  MEMBER
+}
+
+model TeamMember {
+  id          String   @id @default(uuid())
+  name        String
+  designation String   // e.g. "Founder & Chief Instructor"
+  role        TeamRole @default(MEMBER) // Identifying Founder vs Member
+  bio         String?  @db.Text
+  image       String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+
+  instagram   String?
+  facebook    String?
+  linkedin    String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

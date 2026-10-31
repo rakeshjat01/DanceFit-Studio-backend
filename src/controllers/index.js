@@ -5,6 +5,9 @@ import * as SubscriptionController from './subscription-controller.js';
 import * as GalleryController from './gallery-controller.js';
 import * as BlogController from './blog-controller.js';
 import * as CategoryController from './category-controller.js';
+import * as ServiceCategoryController from './service-category-controller.js';
+import * as ServiceController from './service-controller.js';
+import * as TeamController from './team-controller.js';
 
 export {
   TrialBookingController,
@@ -13,5 +16,8 @@ export {
   SubscriptionController,
   GalleryController,
   BlogController,
-  CategoryController
+  CategoryController,
+  ServiceCategoryController,
+  ServiceController,
+  TeamController
 };
